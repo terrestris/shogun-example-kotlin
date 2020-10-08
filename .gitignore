@@ -1,0 +1,3 @@
+/docker/redis/redis_data/
+/docker/postgis/postgresql_data/
+/docker/geoserver/geoserver_data/

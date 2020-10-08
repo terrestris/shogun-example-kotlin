@@ -1,0 +1,34 @@
+version: '2'
+services:
+  postgis:
+    image: mdillon/postgis:11-alpine
+    ports:
+      - 5555:5432
+    environment:
+      POSTGRES_USER: shogun
+      POSTGRES_PASSWORD: shogun
+    volumes:
+      - ./postgis/postgresql_data:/var/lib/postgresql/data:Z
+  geoserver:
+    image: nexus.terrestris.de/hermosa/geoserver-docker:master
+    ports:
+      - 8080:8080
+    volumes:
+      - ./geoserver/geoserver_data:/opt/geoserver_data:Z
+  redis:
+    image: library/redis:5
+    ports:
+      - 6379:6379
+    environment:
+      - REDIS_PASS_FILE=/config/.redis
+    command: [
+        "sh", "-c",
+        '
+      docker-entrypoint.sh
+      "/config/redis.conf"
+      --requirepass "$$(cat $$REDIS_PASS_FILE)"
+      '
+    ]
+    volumes:
+      - ./redis/redis_data:/data
+      - ./redis/redis_config:/config

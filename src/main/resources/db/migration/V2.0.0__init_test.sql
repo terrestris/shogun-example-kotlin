@@ -1,0 +1,1 @@
+create table test (id int8 not null, created timestamp, modified timestamp, name varchar(255), layer_id int8, primary key (id))
